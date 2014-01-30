@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rclosner/gtfs
-  revision: a448f1fb20a30b4c5142f1c984938dead850543a
+  revision: 4671f91b79bda6a2df792fb061817e641c76737d
   specs:
     gtfs (0.0.1)
       virtus (~> 1.0.1)

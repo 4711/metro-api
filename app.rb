@@ -16,8 +16,6 @@ DEFAULT_LIMIT = 20.freeze
 
 # RESOURCES
 
-require File.join(File.dirname(__FILE__), 'resource')
-
 class API < Grape::API
 
   version 'v0'
@@ -28,24 +26,19 @@ class API < Grape::API
     params do
       optional :page, type: Fixnum, default: 1
     end
-
     get do
       GTFS::Agency.limit(DEFAULT_LIMIT).page(params[:page]).all
     end
 
     params do
       optional :page, type: Fixnum, default: 1
-
       group :conditions do
-        optional :page, type: Fixnum, default: 1
         GTFS::Agency.attribute_set.each do |attr|
           optional attr.name, type: attr.primitive
         end
       end
-
       optional :conditions, type: Hash, default: {}
     end
-
     get :search do
       GTFS::Agency.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
     end
@@ -81,7 +74,6 @@ class API < Grape::API
     params do
       optional :page, type: Fixnum, default: 1
     end
-
     get do
       GTFS::Frequency.limit(DEFAULT_LIMIT).page(params[:page]).all
     end
@@ -95,7 +87,6 @@ class API < Grape::API
       end
       optional :conditions, type: Hash, default: {}
     end
-
     get :search do
       GTFS::Frequency.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
     end
@@ -106,7 +97,6 @@ class API < Grape::API
     params do
       optional :page, type: Fixnum, default: 1
     end
-
     get do
       GTFS::Route.limit(DEFAULT_LIMIT).page(params[:page]).all
     end
@@ -131,7 +121,6 @@ class API < Grape::API
     params do
       optional :page, type: Fixnum, default: 1
     end
-
     get do
       GTFS::Shape.limit(DEFAULT_LIMIT).page(params[:page]).all
     end
@@ -151,20 +140,96 @@ class API < Grape::API
   
   end
 
-  get :stops do
-    GTFS::Stop.all
+  resources :stops do
+
+    params do
+      optional :page, type: Fixnum, default: 1
+    end
+    get do
+      GTFS::Stop.limit(DEFAULT_LIMIT).page(params[:page]).all
+    end
+
+    params do
+      optional :page, type: Fixnum, default: 1
+      group :conditions do
+        GTFS::Stop.attribute_set.each do |attr|
+          optional attr.name, type: attr.primitive
+        end
+      end
+      optional :conditions, type: Hash, default: {}
+    end
+    get :search do
+      GTFS::Stop.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
+    end
+  
   end
 
-  get :stop_times do
-    GTFS::StopTime.all
+  resources :stop_times do
+
+    params do
+      optional :page, type: Fixnum, default: 1
+    end
+    get do
+      GTFS::StopTime.limit(DEFAULT_LIMIT).page(params[:page]).all
+    end
+
+    params do
+      optional :page, type: Fixnum, default: 1
+      group :conditions do
+        GTFS::StopTime.attribute_set.each do |attr|
+          optional attr.name, type: attr.primitive
+        end
+      end
+      optional :conditions, type: Hash, default: {}
+    end
+    get :search do
+      GTFS::StopTime.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
+    end
+  
   end
 
-  get :transfers do
-    GTFS::Transfer.all
+  resources :trips do
+    params do
+      optional :page, type: Fixnum, default: 1
+    end
+    get do
+      GTFS::Trip.limit(DEFAULT_LIMIT).page(params[:page]).all
+    end
+
+    params do
+      optional :page, type: Fixnum, default: 1
+      group :conditions do
+        GTFS::Trip.attribute_set.each do |attr|
+          optional attr.name, type: attr.primitive
+        end
+      end
+      optional :conditions, type: Hash, default: {}
+    end
+    get :search do
+      GTFS::Trip.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
+    end
   end
 
-  get :trips do
-    GTFS::Trip.all
+  resources :transfers do
+    params do
+      optional :page, type: Fixnum, default: 1
+    end
+    get do
+      GTFS::Transfer.limit(DEFAULT_LIMIT).page(params[:page]).all
+    end
+
+    params do
+      optional :page, type: Fixnum, default: 1
+      group :conditions do
+        GTFS::Transfer.attribute_set.each do |attr|
+          optional attr.name, type: attr.primitive
+        end
+      end
+      optional :conditions, type: Hash, default: {}
+    end
+    get :search do
+      GTFS::Transfer.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
+    end
   end
 
 end
