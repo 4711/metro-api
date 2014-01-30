@@ -7,7 +7,6 @@ require 'sinatra'
 require 'gtfs'
 require 'grape'
 require 'csv'
-require 'grape-swagger'
 
 GTFS.path = './data'
 
@@ -19,11 +18,11 @@ DEFAULT_LIMIT = 20.freeze
 
 class API < Grape::API
 
-   before do
+  before do
     header['Access-Control-Allow-Origin'] = '*'
     header['Access-Control-Request-Method'] = '*'
   end
- 
+
   version 'v0'
 
   format :json
@@ -237,7 +236,5 @@ class API < Grape::API
       GTFS::Transfer.limit(DEFAULT_LIMIT).page(params[:page]).where(params[:conditions]).all
     end
   end
-
-  add_swagger_documentation
 
 end
